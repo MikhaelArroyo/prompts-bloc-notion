@@ -23,31 +23,5 @@ L'application est découpée en deux services pour des raisons de sécurité abs
 2.  **API Proxy (Cloudflare Workers)**
     *   Fichier(s) `worker*.js` : Reçoivent l'appel du frontend, appliquent des limites, consultent secrètement l'API IA (ex: Gemini ou HuggingFace) et retournent la réponse structurée au frontend. 
 
-## Guide de Déploiement
-
-### 1. Héberger le Frontend (GitHub Pages)
-Seuls les fichiers de distribution sont nécessaires. (Voir le fichier `.gitignore` pour la liste des éléments exclus, comme les scripts Node.js ou `input.css`).
-1. Créez un dépôt GitHub vide.
-2. Poussez les fichiers suivants sur une branche (ex: `main`) :
-    *   `index.html`
-    *   `app.js`
-    *   `lang.js`
-    *   `style.min.css`
-    *   Dossier `assets/` (avec `logo.png`)
-3. Dans les paramètres GitHub du repo (Settings > Pages), activez GitHub Pages sur la branche `main`. Votre outil sera en ligne.
-
-### 2. Héberger le Proxy (Cloudflare)
-Le fichier `worker.js` (ou les versions spécifiques à une API) **ne doit pas** être poussé sur une branche publique.
-1. Connectez-vous à Cloudflare Workers.
-2. Créez un nouveau Worker.
-3. Copiez/collez le contenu de `worker.js` dans l'éditeur Cloudflare.
-4. Renseignez l'URL de votre site sur la ligne `ALLOWED_ORIGIN` (ex: `"https://votre-compte.github.io"`).
-5. Sauvegardez et déployez. L'URL générée par Cloudflare (finissant par `.workers.dev`) est celle que `app.js` doit utiliser.
-
-## Développement technique
-
-*   **CSS** : Utilisation de Tailwind CSS 3 via CDN interne. Les commandes de compilation nécessitent Node.js : `npx tailwindcss -i ./input.css -o ./style.min.css --minify`
-*   **Sécurité** : L'injection de contenu dynamique utilise exclusivement `DOMPurify.sanitize()` avec une restriction sur les attributs HTML pour sécuriser `innerHTML`.
-
 ---
 *Conçu pour La Puce Ressource Informatique*
