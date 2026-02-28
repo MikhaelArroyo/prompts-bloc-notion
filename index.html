@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="fr" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://generativelanguage.googleapis.com https://gemini-proxy-notion.michael-araujo.workers.dev/; img-src 'self' https://lapuce.org;">
+    <title>Découvrez des idées de prompts</title>
+    <link href="./style.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style"
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800&display=swap" rel="stylesheet"
+        media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800&display=swap">
+    </noscript>
+    <!-- OpenGraph Meta Tags -->
+    <meta property="og:title" content="Découvrez des idées de prompts - La Puce">
+    <meta property="og:description" content="Outil de génération de prompts adaptés au contexte communautaire/OBNL.">
+    <meta property="og:image" content="./assets/logo.png">
+    <meta property="og:type" content="website">
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col h-full overflow-x-hidden transition-colors duration-300">
+    <div class="flex-grow">
+        <div class="container mx-auto px-6 py-12">
+            <div class="flex justify-end items-center gap-4 mb-4">
+                <div id="lang-switcher" class="flex gap-2">
+                    <button id="lang-fr-btn" class="text-sm">FR</button>
+                    <button id="lang-en-btn" class="text-sm">EN</button>
+                </div>
+            </div>
+            <div
+                class="w-full max-w-[1400px] mx-auto flex flex-col lg:flex-row justify-center lg:justify-center items-start gap-8 relative px-4 lg:px-12 xl:px-24">
+                <div id="main-panel" class="w-full shrink-0 relative transition-all duration-700 ease-in-out z-20">
+                    <div
+                        class="bg-white p-8 rounded-2xl shadow-lg flex flex-col relative w-full transition-colors duration-300">
+                        <div class="text-center mb-8">
+                            <h2 data-i18n-key="title"
+                                class="text-3xl font-bold text-[#010132] transition-colors duration-300">
+                                Découvrez des idées de
+                                prompts</h2>
+                        </div>
+                        <div class="flex-grow">
+                            <p data-i18n-key="intro_text" class="text-slate-600 mb-4 transition-colors duration-300">
+                                Sélectionnez une tâche pour
+                                obtenir un prompt adapté que vous pourriez utiliser avec un outil d'IA générative.</p>
+                            <div class="relative" id="custom-select-container">
+                                <div id="select-selected"
+                                    class="w-full p-3 border-2 border-slate-200 hover:bg-slate-50 :bg-slate-700 text-[#010132] rounded-lg outline-none flex justify-between items-center cursor-pointer transition-all duration-300">
+                                    <span id="select-text" data-i18n-key="select_task">Sélectionnez une tâche...</span>
+                                    <svg id="select-arrow" class="select-arrow w-5 h-5 text-slate-500"
+                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd"
+                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                                </div>
+                                <div id="select-options"
+                                    class="absolute top-full left-0 right-0 bg-white border border-t-0 border-slate-300 rounded-b-lg shadow-lg z-10 overflow-hidden transition-colors duration-300">
+                                </div>
+                            </div>
+                            <p data-i18n-key="or_text"
+                                class="text-center text-slate-500 my-4 transition-colors duration-300">
+                                ou</p>
+                            <div class="relative mb-4 flex items-center">
+                                <input type="text" id="custom-task-input"
+                                    data-i18n-placeholder-key="custom_task_placeholder"
+                                    placeholder="Entrez une tâche personnalisée ici..."
+                                    class="w-full p-3 border-2 border-slate-200 hover:bg-slate-50 :bg-slate-700 text-[#010132] rounded-lg outline-none transition-all duration-300 focus:bg-white :bg-slate-800 focus:border-[#010132] :border-slate-400 focus:ring-0">
+                                <button id="inspire-me-btn" data-i18n-key="inspire_me"
+                                    class="custom-btn flex-shrink-0 py-3 ml-2">J'ai besoin
+                                    d'inspiration</button>
+                            </div>
+                        </div>
+                        <div id="customization-options" class="space-y-6 mb-8">
+                            <div>
+                                <label data-i18n-key="tone_label"
+                                    class="block text-[#010132] font-bold mb-2 transition-colors duration-300">🎨
+                                    Ton</label>
+                                <div id="tone-options" class="flex flex-wrap gap-2">
+                                    <button data-value="Professionnel" data-i18n-key="tone_professional"
+                                        class="custom-btn py-3" aria-pressed="false">Professionnel</button>
+                                    <button data-value="Amical" data-i18n-key="tone_friendly" class="custom-btn py-3"
+                                        aria-pressed="false">Amical</button>
+                                    <button data-value="Créatif" data-i18n-key="tone_creative" class="custom-btn py-3"
+                                        aria-pressed="false">Créatif</button>
+                                    <button data-value="Urgent" data-i18n-key="tone_urgent" class="custom-btn py-3"
+                                        aria-pressed="false">Urgent</button>
+                                </div>
+                            </div>
+                            <div>
+                                <label data-i18n-key="detail_label"
+                                    class="block text-[#010132] font-bold mb-2 transition-colors duration-300">📊
+                                    Niveau de
+                                    détail</label>
+                                <div id="detail-options" class="flex flex-wrap gap-2">
+                                    <button data-value="Concise" data-i18n-key="detail_concise" class="custom-btn py-3"
+                                        aria-pressed="false">Concise</button>
+                                    <button data-value="Standard" data-i18n-key="detail_standard"
+                                        class="custom-btn py-3 active" aria-pressed="true">Standard</button>
+                                    <button data-value="Très détaillé" data-i18n-key="detail_detailed"
+                                        class="custom-btn py-3" aria-pressed="false">Très détaillé</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <button id="generate-prompt-btn"
+                                class="w-full bg-[#49b048] hover:bg-[#3f993e] text-white font-bold py-3 px-4 rounded-lg transition-colors duration-300 disabled:bg-slate-400 :bg-slate-600 flex items-center justify-center"
+                                disabled>
+                                <span id="btn-text" data-i18n-key="generate_button">Générer un prompt</span>
+                                <span id="btn-emoji" class="hidden ml-2"> ✨</span>
+                                <svg id="btn-spinner" class="animate-spin ml-2 h-5 w-5 text-white hidden"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                        stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor"
+                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                    </path>
+                                </svg>
+                            </button>
+                            <div id="prompt-output"
+                                class="mt-8 p-6 md3-surface text-slate-800 hidden transition-colors duration-300">
+                            </div>
+                            <div id="pro-tip-output"
+                                class="mt-4 p-6 md3-surface-success hidden transition-colors duration-300">
+                            </div>
+                            <button id="copy-btn" data-i18n-key="copy_button"
+                                class="mt-6 mx-1 w-[calc(100%-8px)] cursor-pointer group md3-btn-secondary flex justify-center items-center bg-transparent border-slate-300 hidden text-md font-bold text-slate-500 group-hover:text-slate-800 :text-slate-200 transition-colors">
+                                Copier le prompt
+                            </button>
+                            <div id="prompt-loading" class="mt-8 text-center hidden">
+                                <div class="flex justify-center items-center py-8">
+                                    <div class="typewriter-loader">
+                                        <div class="slide"><i></i></div>
+                                        <div class="paper"></div>
+                                        <div class="keyboard"></div>
+                                    </div>
+                                </div>
+                                <p id="loading-text" data-i18n-key="loading_text_default"
+                                    class="text-[#010132] font-semibold transition-colors duration-300">
+                                    Rédaction en cours...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="mobile-history-trigger"
+                    class="lg:hidden flex justify-center items-center w-full mt-6 cursor-pointer group">
+                    <h3 data-i18n-key="history_title"
+                        class="text-lg font-bold text-slate-700 group-hover:text-[#010132] :text-white transition-colors">
+                        Historique
+                    </h3>
+                    <span id="mobile-history-arrow"
+                        class="inline-block transition-transform duration-300 ml-2 text-slate-700 group-hover:text-[#010132] :text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 -960 960 960" width="28px"
+                            fill="currentColor">
+                            <path d="M480-345 240-585l56-56 184 184 184-184 56 56-240 240Z" />
+                        </svg>
+                    </span>
+                </div>
+                <div id="history-trigger"
+                    class="hidden lg:flex flex-col items-center justify-start w-12 cursor-pointer group z-10 sticky top-0 pt-8 pl-4">
+                    <span id="history-arrow"
+                        class="inline-block transition-transform duration-300 text-slate-700 group-hover:text-[#010132] :text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="32px" viewBox="0 -960 960 960" width="32px"
+                            fill="currentColor">
+                            <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z" />
+                        </svg>
+                    </span>
+                    <h3 data-i18n-key="history_title"
+                        class="text-lg font-bold tracking-widest text-slate-700 group-hover:text-[#010132] :text-white transition-colors"
+                        style="writing-mode: vertical-rl; transform: rotate(180deg);">
+                        Historique
+                    </h3>
+                </div>
+                <div id="history-panel"
+                    class="w-full shrink-0 flex flex-col opacity-0 pointer-events-none overflow-hidden transition-all duration-500 ease-out z-10 max-h-0 lg:max-h-none">
+                    <div class="p-3 flex flex-col h-full w-full lg:w-[27rem]">
+                        <div id="history-list" class="flex-grow max-h-[calc(80vh-8rem)] pr-2 w-full">
+                        </div>
+                        <div id="see-more-trigger"
+                            class="hidden mx-1 w-[calc(100%-8px)] cursor-pointer group mt-4 md3-btn-secondary flex justify-center items-center bg-transparent border-slate-300">
+                            <h3
+                                class="text-md font-bold text-slate-500 group-hover:text-slate-800 :text-slate-200 transition-colors flex items-center">
+                                <span id="see-more-text" data-i18n-key="see_more">Voir plus</span>
+                                <span id="see-more-arrow"
+                                    class="relative w-6 h-6 ml-2 flex items-center justify-center text-xl">
+                                    <span
+                                        class="plus-icon absolute transition-all duration-300 ease-in-out transform rotate-0 opacity-100">
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
+                                            width="24px" fill="currentColor">
+                                            <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
+                                        </svg>
+                                    </span>
+                                    <span
+                                        class="minus-icon absolute transition-all duration-300 ease-in-out transform opacity-0">
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
+                                            width="24px" fill="currentColor">
+                                            <path d="M200-440v-80h560v80H200Z" />
+                                        </svg>
+                                    </span>
+                                </span>
+                            </h3>
+                        </div>
+                        <div id="export-history-container" class="pt-4 mt-auto hidden w-full">
+                            <button id="export-history-btn" data-i18n-key="export_history"
+                                class="mx-1 w-[calc(100%-8px)] custom-btn text-sm"
+                                style="padding-top: 0.875rem; padding-bottom: 0.875rem;">Exporter l'historique
+                                (.txt)</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    <footer class="py-8">
+        <div class="container mx-auto px-6 text-center">
+            <a href="https://lapuce.org" target="_blank" rel="noopener noreferrer" class="inline-block">
+                <img src="./assets/logo.png" alt="Logo de La Puce Ressource Informatique" class="h-16 mx-auto">
+            </a>
+        </div>
+    </footer>
+    <script src="lang.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.8/purify.min.js"></script>
+    <script src="app.js" defer></script>
+</body>
+</html>
